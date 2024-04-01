@@ -1,5 +1,9 @@
 ﻿#pragma once
 
+#include "SimulationVisualizationForm.h"
+
+#include "VisualizationRegistry.h"
+
 namespace TelecommsSimulation
 {
     using namespace System;
@@ -14,7 +18,12 @@ namespace TelecommsSimulation
     /// </summary>
     public ref class FreeControlPanelForm : public Form
     {
-        static Engine::TimeAwareSimulationEngine<Engine::ITimeAwareSimulatable^>^ _simulationEngine;
+        Engine::TimeAwareSimulationEngine<Engine::ITimeAwareSimulatable^>^ _simulationEngine;
+
+        VisualizationRegistry<Core::BaseStation^>^ _baseStationVisualizationRegistry;
+        VisualizationRegistry<Core::Phone^>^ _phoneVisualizationRegistry;
+
+        SimulationVisualizationForm^ _simulationVisualizationForm;
 
     public:
         FreeControlPanelForm();
@@ -83,7 +92,7 @@ namespace TelecommsSimulation
         /// </summary>
         void InitializeComponent(void)
         {
-            auto resources = (gcnew
+            ComponentResourceManager^ resources = (gcnew
                 ComponentResourceManager(FreeControlPanelForm::typeid));
             this->SimulationSpeedTrackBar = (gcnew TrackBar());
             this->label1 = (gcnew Label());

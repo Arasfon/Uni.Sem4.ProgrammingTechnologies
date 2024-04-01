@@ -10,14 +10,25 @@ namespace TelecommsSimulation
     void RunModeSelectionForm::FreeModeButton_Click(Object^ sender, EventArgs^ e)
     {
         Hide();
-        (gcnew FreeControlPanelForm())->ShowDialog();
-        Close();
+
+        _controlPanelForm = gcnew FreeControlPanelForm();
+        _controlPanelForm->FormClosed += gcnew FormClosedEventHandler(
+            this, &RunModeSelectionForm::OnControlPanelFormClosed);
+        _controlPanelForm->Show(this);
     }
 
     void RunModeSelectionForm::ScenarioModeButton_Click(Object^ sender, EventArgs^ e)
     {
         Hide();
-        (gcnew ScenarioControlPanelForm())->ShowDialog();
+
+        _controlPanelForm = gcnew ScenarioControlPanelForm();
+        _controlPanelForm->FormClosed += gcnew FormClosedEventHandler(
+            this, &RunModeSelectionForm::OnControlPanelFormClosed);
+        _controlPanelForm->Show(this);
+    }
+
+    void RunModeSelectionForm::OnControlPanelFormClosed(Object^ sender, FormClosedEventArgs^ e)
+    {
         Close();
     }
 }

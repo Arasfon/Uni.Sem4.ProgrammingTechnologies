@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,9 +15,17 @@ namespace TelecommsSimulation.Core;
 
 public class BaseStation : ILocatable, INotifyPropertyChanged
 {
-    protected readonly ConcurrentDictionary<string, Phone> ConnectedPhones = [];
+    protected readonly ConcurrentDictionary<string, Phone> ConnectedPhonesMap = [];
+
+    // Workaround: C++/CLI does not support System.Collections.Immutable even from C# NuGet reference (because it does not support NuGet altogether)
+    // Hack: Also should be private, but it's public for the sake of connection visualization
+    public IEnumerable<Phone> ConnectedPhones => ConnectedPhonesMap.Values.ToImmutableArray();
 
     protected static readonly ConcurrentDictionary<string, CallPhoneData> CallDataLookupDictionary = [];
+
+    // Workaround: C++/CLI does not support System.Collections.Immutable even from C# NuGet reference (because it does not support NuGet altogether)
+    // Hack: Also should not exist at all, but exists for the sake of calls visualization
+    public static IEnumerable<CallPhoneData> CurrentCalls => CallDataLookupDictionary.Values.ToImmutableArray().Distinct();
 
     public string Name { get; }
 
@@ -31,10 +41,12 @@ public class BaseStation : ILocatable, INotifyPropertyChanged
 
     public double CoverageRadiusKm { get; }
 
-    public int ConnectedPhonesCount => ConnectedPhones.Count;
+    public int ConnectedPhonesCount => ConnectedPhonesMap.Count;
 
     protected static readonly List<BaseStation> AllEnabledStationsList = [];
-    public static IReadOnlyCollection<BaseStation> AllEnabledStations { get; } = AllEnabledStationsList.AsReadOnly();
+
+    // Workaround: C++/CLI does not support System.Collections.Immutable even from C# NuGet reference (because it does not support NuGet altogether)
+    public static IEnumerable<BaseStation> AllEnabledStations => AllEnabledStationsList.ToImmutableArray();
 
     protected readonly SynchronizationContext? UiSynchronizationContext;
 
@@ -63,7 +75,7 @@ public class BaseStation : ILocatable, INotifyPropertyChanged
 
         AllEnabledStationsList.Remove(this);
 
-        foreach (KeyValuePair<string, Phone> connectedPhonePair in ConnectedPhones)
+        foreach (KeyValuePair<string, Phone> connectedPhonePair in ConnectedPhonesMap)
             connectedPhonePair.Value.SwitchBaseStationIfNeeded();
 
         IsEnabled = false;
@@ -74,18 +86,21 @@ public class BaseStation : ILocatable, INotifyPropertyChanged
         if (FindPhone(phone.Number) is not null)
             throw new Exception("This number is already connected");
 
-        if (!ConnectedPhones.TryAdd(phone.Number, phone))
+        if (!ConnectedPhonesMap.TryAdd(phone.Number, phone))
             throw new Exception("This number is already connected");
 
         OnPropertyChanged(nameof(ConnectedPhonesCount));
+        OnPropertyChanged(nameof(ConnectedPhones));
 
         phone.CallEnded += CallEnded;
     }
 
     public virtual void UnregisterPhone(Phone phone)
     {
-        ConnectedPhones.Remove(phone.Number, out _);
+        ConnectedPhonesMap.Remove(phone.Number, out _);
+
         OnPropertyChanged(nameof(ConnectedPhonesCount));
+        OnPropertyChanged(nameof(ConnectedPhones));
 
         phone.CallEnded -= CallEnded;
     }
@@ -163,7 +178,7 @@ public class BaseStation : ILocatable, INotifyPropertyChanged
         Phone? phone = null;
         foreach (BaseStation baseStation in AllEnabledStations)
         {
-            if (baseStation.ConnectedPhones.TryGetValue(number, out phone))
+            if (baseStation.ConnectedPhonesMap.TryGetValue(number, out phone))
                 break;
         }
 
@@ -174,7 +189,7 @@ public class BaseStation : ILocatable, INotifyPropertyChanged
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        // Workaround: WinForms threading unawareness
+        // Workaround: WinForms' lack of threading awareness and the challenge of re-invoking handlers in C++/CLI (i.e. no support for lambda-functions)
         if (UiSynchronizationContext != null)
             UiSynchronizationContext.Post(_ => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)), null);
         else

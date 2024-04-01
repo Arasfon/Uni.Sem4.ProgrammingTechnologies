@@ -161,6 +161,8 @@ namespace TelecommsSimulation
             this->Name = L"ScenarioControlPanelForm";
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"Симуляция телекоммуникаций: Панель управления сценарием";
+            this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(
+                this, &ScenarioControlPanelForm::ScenarioControlPanelForm_FormClosed);
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->SimulationSpeedTrackBar))->EndInit();
             this->ResumeLayout(false);
             this->PerformLayout();
@@ -170,5 +172,7 @@ namespace TelecommsSimulation
         System::Void SimulationStopButton_Click(Object^ sender, System::EventArgs^ e);
         System::Void OnSimulationEnginePropertyChanged(System::Object^ sender,
                                                        System::ComponentModel::PropertyChangedEventArgs^ e);
+        System::Void ScenarioControlPanelForm_FormClosed(System::Object^ sender,
+                                                         System::Windows::Forms::FormClosedEventArgs^ e);
     };
 }

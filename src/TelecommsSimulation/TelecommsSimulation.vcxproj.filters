@@ -16,6 +16,12 @@
     <Filter Include="Forms">
       <UniqueIdentifier>{a017c81f-872a-4dc7-a52d-d9afd7099bb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Visualization">
+      <UniqueIdentifier>{e4fa9bb5-d15c-4257-94a1-3c1f606a376b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation">
+      <UniqueIdentifier>{2e3bca39-5c1e-4c42-b4ab-f8c2696c171e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -41,20 +47,41 @@
     <ClInclude Include="PhoneBlacklistForm.h">
       <Filter>Forms</Filter>
     </ClInclude>
-    <ClInclude Include="CompiledScenarioSimlationEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RandomlyMovingSimulatable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimulatableToFormLifecycleBinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScenarioControlPanelForm.h">
       <Filter>Forms</Filter>
     </ClInclude>
     <ClInclude Include="RunModeSelectionForm.h">
       <Filter>Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulationVisualizationForm.h">
+      <Filter>Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsExtensions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualizationRegistry.h">
+      <Filter>Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="IVisualizationEngine.h">
+      <Filter>Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="IVisualizationRegistry.h">
+      <Filter>Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="TelecommsSimulationVisualizationEngine.h">
+      <Filter>Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatableToFormLifecycleBinder.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomlyMovingSimulatable.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="CompiledScenarioSimlationEngine.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualizationRegistryObjectToFormLifecycleBinder.h">
+      <Filter>Visualization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -79,20 +106,35 @@
     <ClCompile Include="PhoneBlacklistForm.cpp">
       <Filter>Forms</Filter>
     </ClCompile>
-    <ClCompile Include="CompiledScenarioSimlationEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RandomlyMovingSimulatable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimulatableToFormLifecycleBinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScenarioControlPanelForm.cpp">
       <Filter>Forms</Filter>
     </ClCompile>
     <ClCompile Include="RunModeSelectionForm.cpp">
       <Filter>Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulationVisualizationForm.cpp">
+      <Filter>Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsExtensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualizationRegistry.cpp">
+      <Filter>Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="TelecommsSimulationVisualizationEngine.cpp">
+      <Filter>Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="CompiledScenarioSimlationEngine.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomlyMovingSimulatable.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatableToFormLifecycleBinder.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualizationRegistryObjectToFormLifecycleBinder.cpp">
+      <Filter>Visualization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

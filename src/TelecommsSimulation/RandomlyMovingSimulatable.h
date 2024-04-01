@@ -6,8 +6,8 @@ namespace TelecommsSimulation
     public ref class RandomlyMovingSimulatable : public Engine::ITimeAwareSimulatable,
                                                  public Engine::IWrapperSimulatable<T>
     {
-        T _entity;
-        System::Random^ _random = gcnew System::Random();
+        initonly T _entity;
+        initonly System::Random^ _random = gcnew System::Random();
 
     public:
         property T Entity

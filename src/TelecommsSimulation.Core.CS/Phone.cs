@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -150,7 +151,7 @@ public class Phone : ILocatableMovable, INotifyPropertyChanged
         if (State is not PhoneState.Connected)
             return;
 
-        if (IsCoveredBy(ConnectedBaseStation!))
+        if (ConnectedBaseStation!.IsEnabled && IsCoveredBy(ConnectedBaseStation!))
             return;
 
         BaseStation? nearestStation = FindBaseStation();
@@ -255,12 +256,9 @@ public class Phone : ILocatableMovable, INotifyPropertyChanged
 
     protected virtual BaseStation? FindBaseStation()
     {
-        BaseStation? nearestStation = BaseStation.AllEnabledStations.MinBy(x => x.Location.CalculateKmDistanceTo(Location));
+        BaseStation? nearestStation = BaseStation.AllEnabledStations.Where(IsCoveredBy).MinBy(x => x.Location.CalculateKmDistanceTo(Location));
 
-        if (nearestStation is null)
-            return null;
-
-        return IsCoveredBy(nearestStation) ? nearestStation : null;
+        return nearestStation;
     }
 
     protected bool IsCoveredBy(BaseStation baseStation) =>
@@ -270,7 +268,7 @@ public class Phone : ILocatableMovable, INotifyPropertyChanged
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        // Workaround: WinForms threading unawareness
+        // Workaround: WinForms' lack of threading awareness and the challenge of re-invoking handlers in C++/CLI (i.e. no support for lambda-functions)
         if (UiSynchronizationContext != null)
             UiSynchronizationContext.Post(_ => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)), null);
         else

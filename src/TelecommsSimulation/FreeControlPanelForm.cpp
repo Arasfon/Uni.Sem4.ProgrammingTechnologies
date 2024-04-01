@@ -8,6 +8,10 @@
 #include "RandomlyMovingSimulatable.h"
 #include "SimulatableToFormLifecycleBinder.h"
 
+#include "SimulationVisualizationForm.h"
+#include "VisualizationRegistry.h"
+#include "VisualizationRegistryObjectToFormLifecycleBinder.h"
+
 using namespace TelecommsSimulation::Engine;
 using namespace TelecommsSimulation::Core;
 
@@ -25,6 +29,12 @@ namespace TelecommsSimulation
 
         _simulationEngine->PropertyChanged += gcnew PropertyChangedEventHandler(
             this, &FreeControlPanelForm::OnSimulationEnginePropertyChanged);
+
+        _baseStationVisualizationRegistry = gcnew VisualizationRegistry<BaseStation^>();
+        _phoneVisualizationRegistry = gcnew VisualizationRegistry<Phone^>();
+
+        _simulationVisualizationForm = gcnew SimulationVisualizationForm(_baseStationVisualizationRegistry, _phoneVisualizationRegistry);
+        _simulationVisualizationForm->Show();
     }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -41,49 +51,57 @@ namespace TelecommsSimulation
 
     void FreeControlPanelForm::CreateBaseStationButton_Click(Object^ sender, EventArgs^ e)
     {
-        auto baseStation = gcnew BaseStation(BaseStationNameTextBox->Text, Coordinates(
-                                                 safe_cast<double>(BaseStationLatitudeNumericUpDown->Value),
-                                                 safe_cast<double>(BaseStationLongitudeNumericUpDown->Value)),
-                                             safe_cast<double>(BaseStationCoverageNumericUpDown->Value));
+        BaseStation^ baseStation = gcnew BaseStation(BaseStationNameTextBox->Text, Coordinates(
+                                                         safe_cast<double>(BaseStationLatitudeNumericUpDown->Value),
+                                                         safe_cast<double>(BaseStationLongitudeNumericUpDown->Value)),
+                                                     safe_cast<double>(BaseStationCoverageNumericUpDown->Value));
 
-        (gcnew BaseStationForm(baseStation))->Show();
+        BaseStationForm^ baseStationForm = gcnew BaseStationForm(baseStation);
+
+        VisualizationRegistryObjectToFormLifecycleBinder<BaseStation^>::Bind(_baseStationVisualizationRegistry, baseStation, baseStationForm);
+
+        baseStationForm->Show();
     }
 
     void FreeControlPanelForm::CreatePhoneButton_Click(Object^ sender, EventArgs^ e)
     {
-        auto phone = gcnew Phone(PhoneNumberTextBox->Text, Coordinates(
-                                     safe_cast<double>(PhoneLatitudeNumericUpDown->Value),
-                                     safe_cast<double>(PhoneLongitudeNumericUpDown->Value)),
-                                 safe_cast<double>(PhoneBatteryLevelNumericUpDown->Value));
+        Phone^ phone = gcnew Phone(PhoneNumberTextBox->Text, Coordinates(
+                                       safe_cast<double>(PhoneLatitudeNumericUpDown->Value),
+                                       safe_cast<double>(PhoneLongitudeNumericUpDown->Value)),
+                                   safe_cast<double>(PhoneBatteryLevelNumericUpDown->Value));
 
-        auto randomlyMovingPhone = gcnew RandomlyMovingSimulatable<Phone^>(phone);
+        RandomlyMovingSimulatable<Phone^>^ randomlyMovingPhone = gcnew RandomlyMovingSimulatable<Phone^>(phone);
 
         _simulationEngine->Add(randomlyMovingPhone);
 
-        auto phoneForm = gcnew PhoneForm(phone, true);
+        PhoneForm^ phoneForm = gcnew PhoneForm(phone, true);
 
         SimulatableToFormLifecycleBinder<ITimeAwareSimulatable^>::Bind(_simulationEngine, randomlyMovingPhone,
                                                                        phoneForm);
+
+        VisualizationRegistryObjectToFormLifecycleBinder<Phone^>::Bind(_phoneVisualizationRegistry, phone, phoneForm);
 
         phoneForm->Show();
     }
 
     void FreeControlPanelForm::CreatePhoneWithBlacklistButton_Click(Object^ sender, EventArgs^ e)
     {
-        auto phone = gcnew PhoneWithBlacklist(PhoneNumberTextBox->Text, Coordinates(
-                                                  safe_cast<double>(PhoneLatitudeNumericUpDown->Value),
-                                                  safe_cast<double>(PhoneLongitudeNumericUpDown->Value)),
-                                              safe_cast<double>(PhoneBatteryLevelNumericUpDown->Value));
+        PhoneWithBlacklist^ phone = gcnew PhoneWithBlacklist(PhoneNumberTextBox->Text, Coordinates(
+                                                                 safe_cast<double>(PhoneLatitudeNumericUpDown->Value),
+                                                                 safe_cast<double>(PhoneLongitudeNumericUpDown->Value)),
+                                                             safe_cast<double>(PhoneBatteryLevelNumericUpDown->Value));
 
-        auto randomlyMovingPhone = gcnew RandomlyMovingSimulatable<Phone^>(phone);
+        RandomlyMovingSimulatable<Phone^>^ randomlyMovingPhone = gcnew RandomlyMovingSimulatable<Phone^>(phone);
 
         _simulationEngine->Add(randomlyMovingPhone);
 
-        auto phoneForm = gcnew PhoneForm(phone, true);
-        auto blacklistForm = gcnew PhoneBlacklistForm(phone);
+        PhoneForm^ phoneForm = gcnew PhoneForm(phone, true);
+        PhoneBlacklistForm^ blacklistForm = gcnew PhoneBlacklistForm(phone);
 
         SimulatableToFormLifecycleBinder<ITimeAwareSimulatable^>::Bind(_simulationEngine, randomlyMovingPhone,
                                                                        phoneForm);
+
+        VisualizationRegistryObjectToFormLifecycleBinder<Phone^>::Bind(_phoneVisualizationRegistry, phone, phoneForm);
 
         phoneForm->Show();
         blacklistForm->Show(phoneForm);

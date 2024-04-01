@@ -9,15 +9,6 @@ namespace TelecommsSimulation::Utilities
         generic<typename TKey, typename TValue>
         [System::Runtime::CompilerServices::ExtensionAttribute]
         static bool Remove(System::Collections::Generic::IDictionary<TKey, TValue>^ dictionary, TKey key,
-                           [System::Runtime::InteropServices::Out] TValue% value)
-        {
-            if (dictionary->TryGetValue(key, value))
-            {
-                dictionary->Remove(key);
-                return true;
-            }
-
-            return false;
-        }
+                           [System::Runtime::InteropServices::Out] TValue% value);
     };
 }

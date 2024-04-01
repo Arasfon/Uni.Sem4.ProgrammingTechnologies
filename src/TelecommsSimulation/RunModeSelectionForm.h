@@ -14,6 +14,9 @@ namespace TelecommsSimulation
     /// </summary>
     public ref class RunModeSelectionForm : public System::Windows::Forms::Form
     {
+    private:
+        Form^ _controlPanelForm;
+
     public:
         RunModeSelectionForm(void)
         {
@@ -107,5 +110,6 @@ namespace TelecommsSimulation
 
     private:
         System::Void ScenarioModeButton_Click(System::Object^ sender, System::EventArgs^ e);
+        void OnControlPanelFormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
     };
 }

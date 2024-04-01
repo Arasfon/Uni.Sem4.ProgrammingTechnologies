@@ -74,7 +74,7 @@ namespace TelecommsSimulation
         /// </summary>
         void InitializeComponent(void)
         {
-            auto resources = (gcnew
+            ComponentResourceManager^ resources = (gcnew
                 ComponentResourceManager(BaseStationForm::typeid));
             this->groupBox7 = (gcnew GroupBox());
             this->NameLabel = (gcnew Label());

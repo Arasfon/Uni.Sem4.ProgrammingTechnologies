@@ -36,7 +36,7 @@ namespace TelecommsSimulation
     {
         if (e->Value != nullptr && e->Value->GetType() == Coordinates::typeid)
         {
-            auto coordinates = safe_cast<Coordinates>(e->Value);
+            Coordinates coordinates = safe_cast<Coordinates>(e->Value);
             e->Value = safe_cast<Decimal>(coordinates.Longitude);
         }
     }
@@ -46,7 +46,7 @@ namespace TelecommsSimulation
     {
         if (e->Value != nullptr && e->Value->GetType() == Coordinates::typeid)
         {
-            auto coordinates = safe_cast<Coordinates>(e->Value);
+            Coordinates coordinates = safe_cast<Coordinates>(e->Value);
             e->Value = safe_cast<Decimal>(coordinates.Latitude);
         }
     }

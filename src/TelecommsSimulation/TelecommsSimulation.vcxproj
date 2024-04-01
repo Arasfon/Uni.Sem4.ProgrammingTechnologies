@@ -160,6 +160,9 @@
     <ClInclude Include="FreeControlPanelForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="GraphicsExtensions.h" />
+    <ClInclude Include="IVisualizationEngine.h" />
+    <ClInclude Include="IVisualizationRegistry.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhoneBlacklistForm.h">
       <FileType>CppForm</FileType>
@@ -176,12 +179,19 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="SimulatableToFormLifecycleBinder.h" />
+    <ClInclude Include="SimulationVisualizationForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="TelecommsSimulationVisualizationEngine.h" />
+    <ClInclude Include="VisualizationRegistry.h" />
+    <ClInclude Include="VisualizationRegistryObjectToFormLifecycleBinder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="BaseStationForm.cpp" />
     <ClCompile Include="CompiledScenarioSimlationEngine.cpp" />
     <ClCompile Include="FreeControlPanelForm.cpp" />
+    <ClCompile Include="GraphicsExtensions.cpp" />
     <ClCompile Include="PhoneBlacklistForm.cpp" />
     <ClCompile Include="PhoneForm.cpp" />
     <ClCompile Include="RandomlyMovingSimulatable.cpp" />
@@ -195,6 +205,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SimulationVisualizationForm.cpp" />
+    <ClCompile Include="TelecommsSimulationVisualizationEngine.cpp" />
+    <ClCompile Include="VisualizationRegistry.cpp" />
+    <ClCompile Include="VisualizationRegistryObjectToFormLifecycleBinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />
@@ -236,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScenarioControlPanelForm.resx">
       <DependentUpon>ScenarioControlPanelForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimulationVisualizationForm.resx">
+      <DependentUpon>SimulationVisualizationForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

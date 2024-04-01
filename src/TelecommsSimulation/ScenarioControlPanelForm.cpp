@@ -55,4 +55,10 @@ namespace TelecommsSimulation
             }
         }
     }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    void ScenarioControlPanelForm::ScenarioControlPanelForm_FormClosed(Object^ sender, FormClosedEventArgs^ e)
+    {
+        delete _simulationEngine;
+    }
 }

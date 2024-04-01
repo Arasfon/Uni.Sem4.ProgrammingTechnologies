@@ -60,7 +60,7 @@ namespace TelecommsSimulation
         /// </summary>
         void InitializeComponent(void)
         {
-            auto resources = (gcnew
+            ComponentResourceManager^ resources = (gcnew
                 ComponentResourceManager(PhoneBlacklistForm::typeid));
             this->groupBox7 = (gcnew GroupBox());
             this->NumberLabel = (gcnew Label());

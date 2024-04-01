@@ -3,6 +3,7 @@
 #include "PhoneForm.h"
 #include "PhoneBlacklistForm.h"
 #include "BaseStationForm.h"
+#include "SimulationVisualizationForm.h"
 
 namespace TelecommsSimulation
 {
@@ -23,6 +24,8 @@ namespace TelecommsSimulation
         BaseStationForm^ _baseStation1Form;
         BaseStationForm^ _baseStation2Form;
 
+        SimulationVisualizationForm^ _simulationVisualizationForm;
+
         initonly Threading::SynchronizationContext^ UiSynchronizationContext;
 
     public:
@@ -35,5 +38,8 @@ namespace TelecommsSimulation
     protected:
         void OnPropertyChanged(String^ propertyName) override;
         void OnPropertyChangedInvoke(Object^ propertyName);
+
+    public:
+        virtual ~CompiledScenarioSimulationEngine();
     };
 }

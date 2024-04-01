@@ -5,6 +5,8 @@
 #include "BaseStationForm.h"
 #include "PhoneBlacklistForm.h"
 #include "PhoneForm.h"
+#include "SimulationVisualizationForm.h"
+#include "VisualizationRegistry.h"
 
 using namespace System::Timers;
 using namespace System::Threading;
@@ -12,6 +14,7 @@ using namespace System::Threading::Tasks;
 
 using namespace TelecommsSimulation::Core;
 using namespace TelecommsSimulation::Engine;
+using namespace TelecommsSimulation::Utilities;
 
 namespace TelecommsSimulation
 {
@@ -24,9 +27,17 @@ namespace TelecommsSimulation
         Speed = 0.02; // Once in 5 seconds
         // ReSharper restore CppLocalVariableMightNotBeInitialized
 
-        _phone1 = gcnew Phone("+1", Coordinates(0, 0), 100);
-        _phone2 = gcnew Phone("+2", Coordinates(0, 0), 100);
-        _phoneWithBlacklist = gcnew PhoneWithBlacklist("+3", Coordinates(0, 0), 100);
+        _baseStation1 = gcnew BaseStation("Central", Coordinates(0, 0), 300);
+        _baseStation2 = gcnew BaseStation("Outskirts", Coordinates(-2, -2), 400);
+
+        _baseStation1Form = gcnew BaseStationForm(_baseStation1);
+        _baseStation1Form->Show();
+        _baseStation2Form = gcnew BaseStationForm(_baseStation2);
+        _baseStation2Form->Show();
+
+        _phone1 = gcnew Phone("+1", Coordinates(-1, 0), 100);
+        _phone2 = gcnew Phone("+2", Coordinates(0, 1), 100);
+        _phoneWithBlacklist = gcnew PhoneWithBlacklist("+3", Coordinates(-0.75, -0.75), 100);
 
         _phone1->CallReceived += gcnew AsyncEventHandler<CallEventArgs^>(
             this, &CompiledScenarioSimulationEngine::CallReceived);
@@ -34,9 +45,6 @@ namespace TelecommsSimulation
             this, &CompiledScenarioSimulationEngine::CallReceived);
         _phoneWithBlacklist->CallReceived += gcnew AsyncEventHandler<CallEventArgs^>(
             this, &CompiledScenarioSimulationEngine::CallReceived);
-
-        _baseStation1 = gcnew BaseStation("Central", Coordinates(0, 0), 300);
-        _baseStation2 = gcnew BaseStation("Outskirts", Coordinates(-2, -2), 400);
 
         _phone1Form = gcnew PhoneForm(_phone1, false);
         _phone1Form->Show();
@@ -47,10 +55,19 @@ namespace TelecommsSimulation
         _phoneWithBlacklistBlacklistForm = gcnew PhoneBlacklistForm(_phoneWithBlacklist);
         _phoneWithBlacklistBlacklistForm->Show();
 
-        _baseStation1Form = gcnew BaseStationForm(_baseStation1);
-        _baseStation1Form->Show();
-        _baseStation2Form = gcnew BaseStationForm(_baseStation2);
-        _baseStation2Form->Show();
+        IVisualizationRegistry<BaseStation^>^ baseStationVisualizationRegistry = gcnew VisualizationRegistry<BaseStation
+            ^>();
+        baseStationVisualizationRegistry->TryAdd(_baseStation1);
+        baseStationVisualizationRegistry->TryAdd(_baseStation2);
+
+        IVisualizationRegistry<Phone^>^ phoneVisualizationRegistry = gcnew VisualizationRegistry<Phone^>();
+        phoneVisualizationRegistry->TryAdd(_phone1);
+        phoneVisualizationRegistry->TryAdd(_phone2);
+        phoneVisualizationRegistry->TryAdd(_phoneWithBlacklist);
+
+        _simulationVisualizationForm = gcnew SimulationVisualizationForm(
+            baseStationVisualizationRegistry, phoneVisualizationRegistry);
+        _simulationVisualizationForm->Show();
     }
 
     void CompiledScenarioSimulationEngine::OnTimeTick(Object^ sender, ElapsedEventArgs^ e)
@@ -101,9 +118,9 @@ namespace TelecommsSimulation
                 }
             case 5:
                 {
-                    auto res = _phone2->MakeCall("+3")->GetAwaiter().GetResult();
+                    CallResult res = _phone2->MakeCall("+3")->GetAwaiter().GetResult();
 
-                    MessageBox::Show("Результат вызова +3: " + res.ToString());
+                    MessageBox::Show("Результат вызова +2 → +3: " + res.ToString(), "Результат вызова +2 → +3");
 
                     break;
                 }
@@ -135,9 +152,11 @@ namespace TelecommsSimulation
                     _phone2->TurnOff();
                     _phoneWithBlacklist->TurnOff();
 
-                    _phone1->Location = Coordinates(0, 0);
-                    _phoneWithBlacklist->Location = Coordinates(0, 0);
                     _phoneWithBlacklist->Blacklist->Clear();
+
+                    _phone1->Location = Coordinates(-1, 0);
+                    _phone2->Location = Coordinates(0, 1);
+                    _phoneWithBlacklist->Location = Coordinates(-0.75, -0.75);
 
                     break;
                 }
@@ -159,7 +178,7 @@ namespace TelecommsSimulation
     // ReSharper disable once CppMemberFunctionMayBeStatic
     Task^ CompiledScenarioSimulationEngine::CallReceived(Object^ sender, CallEventArgs^ e)
     {
-        auto phone = safe_cast<Phone^>(sender);
+        Phone^ phone = safe_cast<Phone^>(sender);
 
         phone->AnswerCall(CallAnswer::Agreed);
 
@@ -168,7 +187,7 @@ namespace TelecommsSimulation
 
     void CompiledScenarioSimulationEngine::OnPropertyChanged(String^ propertyName)
     {
-        // Workaround: WinForms threading unawareness
+        // Workaround: WinForms' lack of threading awareness and the challenge of re-invoking handlers in C++/CLI
         if (UiSynchronizationContext != nullptr)
         {
             UiSynchronizationContext->Post(
@@ -181,8 +200,25 @@ namespace TelecommsSimulation
         }
     }
 
+    // Workaround: C++/CLI does not support lambda-functions
     void CompiledScenarioSimulationEngine::OnPropertyChangedInvoke(Object^ propertyName)
     {
         TimeAwareSimulationEngine<ITimeAwareSimulatable^>::OnPropertyChanged(safe_cast<String^>(propertyName));
+    }
+
+    CompiledScenarioSimulationEngine::~CompiledScenarioSimulationEngine()
+    {
+        if (IsRunning)
+            Stop();
+
+        _simulationVisualizationForm->Close();
+
+        _phone1Form->Close();
+        _phone2Form->Close();
+        _phoneWithBlacklistBlacklistForm->Close();
+        _phoneWithBlacklistForm->Close();
+
+        _baseStation1Form->Close();
+        _baseStation2Form->Close();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Timers;
@@ -49,9 +50,10 @@ public class TimeAwareSimulationEngine<T> : ISimulationEngine<T>
         private set => SetField(ref _currentTick, value);
     }
 
-    private readonly ConcurrentHashSet<T> _simulatedEntities = new();
+    private readonly ConcurrentHashSet<T> _simulatedEntities = [];
 
-    public IEnumerable<T> SimulatedEntities => _simulatedEntities;
+    // Workaround: C++/CLI does not support System.Collections.Immutable even from C# NuGet reference (because it does not support NuGet altogether)
+    public IEnumerable<T> SimulatedEntities => _simulatedEntities.ToImmutableArray();
 
     private bool _isRunning;
 
