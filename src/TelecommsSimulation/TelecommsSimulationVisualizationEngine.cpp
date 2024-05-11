@@ -45,7 +45,7 @@ namespace TelecommsSimulation
         graphics->SmoothingMode = SmoothingMode::AntiAlias;
         graphics->TextRenderingHint = TextRenderingHint::AntiAliasGridFit;
 
-        PointF center = PointF(areaSize.Width / 2., areaSize.Height / 2.);
+        PointF center = PointF(areaSize.Width / 2.f, areaSize.Height / 2.f);
 
         Dictionary<Phone^, PointF>^ phonePointCache = gcnew Dictionary<Phone^, PointF>();
 
@@ -103,8 +103,8 @@ namespace TelecommsSimulation
     PointF TelecommsSimulationVisualizationEngine::ConvertLocationToScreenPoint(const double latitude,
         const double longitude, PointF referencePoint)
     {
-        return PointF(referencePoint.X + latitude * _latitudeToPixelRatio,
-                      referencePoint.Y + longitude * _longitudeToPixelRatio);
+        return PointF(referencePoint.X + safe_cast<float>(latitude) * _latitudeToPixelRatio,
+                      referencePoint.Y + safe_cast<float>(longitude) * _longitudeToPixelRatio);
     }
 
     PointF TelecommsSimulationVisualizationEngine::ConvertLocationToScreenPoint(
@@ -116,7 +116,7 @@ namespace TelecommsSimulation
     SizeF TelecommsSimulationVisualizationEngine::ConvertLocationDifferenceToSize(
         const double latitude, const double longitude)
     {
-        return SizeF(latitude * _latitudeToPixelRatio, longitude * _longitudeToPixelRatio);
+        return SizeF(safe_cast<float>(latitude) * _latitudeToPixelRatio, safe_cast<float>(longitude) * _longitudeToPixelRatio);
     }
 
     RectangleF TelecommsSimulationVisualizationEngine::CalculateCoverageRectangleOnScreen(
