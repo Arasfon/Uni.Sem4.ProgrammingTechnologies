@@ -29,6 +29,6 @@ namespace TelecommsSimulation
 
     void RunModeSelectionForm::OnControlPanelFormClosed(Object^ sender, FormClosedEventArgs^ e)
     {
-        Close();
+        Application::Exit();
     }
 }
