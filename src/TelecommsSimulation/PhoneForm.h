@@ -22,7 +22,7 @@ namespace TelecommsSimulation
         Core::Phone^ _phone;
 
     public:
-        PhoneForm(Core::Phone^ phone, bool interceptAnswer);
+        PhoneForm(Core::Phone^ phone, bool handleAnswer);
 
     protected:
         /// <summary>

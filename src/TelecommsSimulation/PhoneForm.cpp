@@ -10,8 +10,7 @@ using namespace TelecommsSimulation::Utilities;
 
 namespace TelecommsSimulation
 {
-    // TODO: Rename second parameter
-    PhoneForm::PhoneForm(Phone^ phone, const bool interceptAnswer)
+    PhoneForm::PhoneForm(Phone^ phone, const bool handleAnswer)
     {
         InitializeComponent();
 
@@ -35,7 +34,7 @@ namespace TelecommsSimulation
         ConnectedBaseStationNameLabel->DataBindings->Add("Text", _phone, "ConnectedBaseStationName");
         // ReSharper restore CppObjectMemberMightNotBeInitialized
 
-        if (interceptAnswer)
+        if (handleAnswer)
             _phone->CallReceived += gcnew AsyncEventHandler<CallEventArgs^>(this, &PhoneForm::OnCallReceived);
 
         _phone->PropertyChanged += gcnew PropertyChangedEventHandler(
