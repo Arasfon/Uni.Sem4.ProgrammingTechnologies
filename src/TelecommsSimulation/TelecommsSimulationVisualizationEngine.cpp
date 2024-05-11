@@ -63,11 +63,13 @@ namespace TelecommsSimulation
 
             phonePointCache->Add(phone, phonePoint);
 
-            graphics->FillEllipse(Brushes::OrangeRed, phonePoint.X - _phonePointDiameter / 2,
+            Brush^ fillColor = phone->GetType() == PhoneWithBlacklist::typeid ? Brushes::Purple : Brushes::OrangeRed;
+
+            graphics->FillEllipse(fillColor, phonePoint.X - _phonePointDiameter / 2,
                                   phonePoint.Y - _phonePointDiameter / 2, _phonePointDiameter, _phonePointDiameter);
 
             GraphicsExtensions::DrawString(graphics, phone->Number, _stringFont, Brushes::WhiteSmoke,
-                                           Brushes::OrangeRed, phonePoint, _centerStringFormat);
+                                           fillColor, phonePoint, _centerStringFormat);
         }
 
         for each (BaseStation^ baseStation in _baseStationVisualizationRegistry)
