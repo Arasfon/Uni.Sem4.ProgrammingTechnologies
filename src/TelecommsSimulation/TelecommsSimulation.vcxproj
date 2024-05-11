@@ -224,8 +224,8 @@
     <ProjectReference Include="..\TelecommsSimulation.Core.CS\TelecommsSimulation.Core.CS.csproj">
       <Project>{c65e338b-f9d2-46a8-8490-5dea69ea63c0}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\TelecommsSimulation.Engine.CS\TelecommsSimulation.Engine.CS.csproj">
-      <Project>{a18ebf82-1433-4941-bb9c-c264d8227603}</Project>
+    <ProjectReference Include="..\TelecommsSimulation.Engine\TelecommsSimulation.Engine.vcxproj">
+      <Project>{027e3025-aec4-44a4-a956-ebefe06a3a6f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\TelecommsSimulation.Utilities\TelecommsSimulation.Utilities.vcxproj">
       <Project>{a3182354-494e-4580-ab7a-5dc70e7d9ddc}</Project>
