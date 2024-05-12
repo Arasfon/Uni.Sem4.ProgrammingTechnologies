@@ -44,6 +44,8 @@ namespace TelecommsSimulation::Engine
         property unsigned long long CurrentTick
         {
             unsigned long long get();
+        private:
+            void set(unsigned long long value);
         }
 
         property System::Collections::Generic::IEnumerable<T>^ SimulatedEntities
@@ -54,6 +56,8 @@ namespace TelecommsSimulation::Engine
         property bool IsRunning
         {
             virtual bool get();
+        private:
+            void set(bool value);
         }
 
         virtual event System::ComponentModel::PropertyChangedEventHandler^ PropertyChanged;
@@ -70,7 +74,6 @@ namespace TelecommsSimulation::Engine
 
         virtual void OnTimeTick(Object^ sender, System::Timers::ElapsedEventArgs^ e);
 
-    private:
         generic<typename TValue>
         bool SetField(TValue% field, TValue value, System::String^ propertyName);
     };

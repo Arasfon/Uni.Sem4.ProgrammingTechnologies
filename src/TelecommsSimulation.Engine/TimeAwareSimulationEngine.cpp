@@ -21,9 +21,11 @@ namespace TelecommsSimulation::Engine
     void TimeAwareSimulationEngine<T>::Speed::set(double value)
     {
         value = MathExtensions::Clamp(value, 0.01, 2);
+
         SetField<double>(_speed, value, "Speed");
         OnPropertyChanged("TickIntervalMilliseconds");
         OnPropertyChanged("TickInterval");
+
         Timer->Interval = TickIntervalMilliseconds;
     }
 
@@ -58,6 +60,12 @@ namespace TelecommsSimulation::Engine
     }
 
     generic<typename T>
+    void TimeAwareSimulationEngine<T>::CurrentTick::set(unsigned long long value)
+    {
+        SetField<unsigned long long>(_currentTick, value, "CurrentTick");
+    }
+
+    generic<typename T>
     IEnumerable<T>^ TimeAwareSimulationEngine<T>::SimulatedEntities::get()
     {
         return _simulatedEntities;
@@ -70,9 +78,15 @@ namespace TelecommsSimulation::Engine
     }
 
     generic<typename T>
+    void TimeAwareSimulationEngine<T>::IsRunning::set(bool value)
+    {
+        SetField<bool>(_isRunning, value, "IsRunning");
+    }
+
+    generic<typename T>
     TimeAwareSimulationEngine<T>::TimeAwareSimulationEngine()
     {
-        Timer = gcnew Timers::Timer(BaseTickIntervalMilliseconds);
+        Timer = gcnew Timers::Timer(TickIntervalMilliseconds);
         Timer->Elapsed += gcnew ElapsedEventHandler(this, &TimeAwareSimulationEngine::OnTimeTick);
     }
 
@@ -80,21 +94,24 @@ namespace TelecommsSimulation::Engine
     void TimeAwareSimulationEngine<T>::Start()
     {
         if (IsRunning)
-            throw gcnew InvalidOperationException("Simulation is already running.");
+            throw gcnew InvalidOperationException();
 
         Timer->Start();
-        SetField<bool>(_isRunning, true, "IsRunning");
+
+        IsRunning = true;
     }
 
     generic<typename T>
     void TimeAwareSimulationEngine<T>::Stop()
     {
         if (!IsRunning)
-            throw gcnew InvalidOperationException("Simulation is not running.");
+            throw gcnew InvalidOperationException();
 
         Timer->Stop();
-        SetField<bool>(_isRunning, false, "IsRunning");
-        SetField<unsigned long long>(_currentTick, 0, "CurrentTick");
+
+        CurrentTick = 0;
+
+        IsRunning = false;
     }
 
     generic<typename T>
@@ -115,10 +132,10 @@ namespace TelecommsSimulation::Engine
         if (!IsRunning)
             return;
 
-        _currentTick++;
+        CurrentTick++;
 
         for each (T entity in _simulatedEntities)
-            entity->ProcessTimeTick(_currentTick);
+            entity->ProcessTimeTick(CurrentTick);
     }
 
     generic<typename T>
