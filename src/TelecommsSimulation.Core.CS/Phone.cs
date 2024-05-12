@@ -256,7 +256,10 @@ public class Phone : ILocatableMovable, INotifyPropertyChanged
 
     protected virtual BaseStation? FindBaseStation()
     {
-        BaseStation? nearestStation = BaseStation.AllEnabledStations.Where(IsCoveredBy).MinBy(x => x.Location.CalculateKmDistanceTo(Location));
+        BaseStation? nearestStation =
+            BaseStation.AllEnabledStations
+                .Where(IsCoveredBy)
+                .MinBy(x => x.Location.CalculateKmDistanceTo(Location));
 
         return nearestStation;
     }
