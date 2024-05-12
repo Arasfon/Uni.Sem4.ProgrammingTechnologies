@@ -148,7 +148,7 @@ namespace TelecommsSimulation::Engine
     generic<typename TValue>
     bool TimeAwareSimulationEngine<T>::SetField(TValue% field, TValue value, String^ propertyName)
     {
-        if (Equals(field, value))
+        if (EqualityComparer<T>::Default->Equals(field, value))
             return false;
 
         field = value;
