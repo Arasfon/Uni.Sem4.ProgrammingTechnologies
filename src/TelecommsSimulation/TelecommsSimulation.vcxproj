@@ -221,8 +221,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TelecommsSimulation.Core.CS\TelecommsSimulation.Core.CS.csproj">
-      <Project>{c65e338b-f9d2-46a8-8490-5dea69ea63c0}</Project>
+    <ProjectReference Include="..\TelecommsSimulation.Core\TelecommsSimulation.Core.vcxproj">
+      <Project>{b7c21169-8929-4c7b-b629-1babd17c45c1}</Project>
     </ProjectReference>
     <ProjectReference Include="..\TelecommsSimulation.Engine\TelecommsSimulation.Engine.vcxproj">
       <Project>{027e3025-aec4-44a4-a956-ebefe06a3a6f}</Project>

@@ -21,31 +21,13 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Phone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BaseStation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InvalidCallStateException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InvalidPhoneStateException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NumberAlreadyInUseException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PhoneWithBlacklist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Coordinates.h">
+    <ClInclude Include="CallAnswer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CallEventArgs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PhoneState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CallPhoneData.h">
@@ -54,10 +36,37 @@
     <ClInclude Include="CallResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CallAnswer.h">
+    <ClInclude Include="CallState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CallState.h">
+    <ClInclude Include="Coordinates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ILocatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ILocatableMovable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidBaseStationStateException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidCallStateException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidPhoneStateException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinqExtensions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Phone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoneState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoneWithBlacklist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,22 +77,52 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Phone.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseStation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhoneWithBlacklist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Coordinates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CallPhoneData.cpp">
+    <ClCompile Include="Phone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoneWithBlacklist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CallAnswer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CallEventArgs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CallPhoneData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CallResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CallState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ILocatable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ILocatableMovable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidBaseStationStateException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidCallStateException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidPhoneStateException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LinqExtensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhoneState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -142,17 +142,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseStation.h" />
+    <ClInclude Include="CallAnswer.h" />
+    <ClInclude Include="CallEventArgs.h" />
+    <ClInclude Include="CallPhoneData.h" />
+    <ClInclude Include="CallResult.h" />
+    <ClInclude Include="CallState.h" />
+    <ClInclude Include="Coordinates.h" />
+    <ClInclude Include="ILocatable.h" />
+    <ClInclude Include="ILocatableMovable.h" />
+    <ClInclude Include="InvalidBaseStationStateException.h" />
+    <ClInclude Include="InvalidCallStateException.h" />
+    <ClInclude Include="InvalidPhoneStateException.h" />
+    <ClInclude Include="LinqExtensions.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Phone.h" />
+    <ClInclude Include="PhoneState.h" />
+    <ClInclude Include="PhoneWithBlacklist.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="BaseStation.cpp" />
+    <ClCompile Include="CallAnswer.cpp" />
+    <ClCompile Include="CallEventArgs.cpp" />
+    <ClCompile Include="CallPhoneData.cpp" />
+    <ClCompile Include="CallResult.cpp" />
+    <ClCompile Include="CallState.cpp" />
+    <ClCompile Include="Coordinates.cpp" />
+    <ClCompile Include="ILocatable.cpp" />
+    <ClCompile Include="ILocatableMovable.cpp" />
+    <ClCompile Include="InvalidBaseStationStateException.cpp" />
+    <ClCompile Include="InvalidCallStateException.cpp" />
+    <ClCompile Include="InvalidPhoneStateException.cpp" />
+    <ClCompile Include="LinqExtensions.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Phone.cpp" />
+    <ClCompile Include="PhoneState.cpp" />
+    <ClCompile Include="PhoneWithBlacklist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -162,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
