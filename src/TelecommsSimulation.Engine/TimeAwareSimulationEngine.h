@@ -25,6 +25,7 @@ namespace TelecommsSimulation::Engine
             void set(double value);
         }
 
+        // Workaround for TrackBar
         property int SpeedPercentage
         {
             int get();
@@ -48,6 +49,7 @@ namespace TelecommsSimulation::Engine
             void set(unsigned long long value);
         }
 
+        // Workaround: C++/CLI does not support System.Collections.Immutable even from C# NuGet reference (because it does not support NuGet altogether)
         property System::Collections::Generic::IEnumerable<T>^ SimulatedEntities
         {
             virtual System::Collections::Generic::IEnumerable<T>^ get();
