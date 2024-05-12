@@ -4,7 +4,7 @@ namespace TelecommsSimulation::Utilities
 {
     double MathExtensions::FMod(const double x, const double y)
     {
-        return x - y * System::Math::Floor(x / y);
+        return x - y * System::Math::Truncate(x / y);
     }
 
     double MathExtensions::Clamp(const double value, const double min, const double max)
