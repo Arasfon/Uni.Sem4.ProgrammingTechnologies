@@ -236,7 +236,7 @@ namespace TelecommsSimulation::Core
 
     void BaseStation::OnPropertyChangedInvoke(Object^ propertyName)
     {
-        BaseStation::OnPropertyChanged(safe_cast<String^>(propertyName));
+        PropertyChanged(this, gcnew PropertyChangedEventArgs(safe_cast<String^>(propertyName)));
     }
 
     generic<typename T>

@@ -81,7 +81,9 @@ namespace TelecommsSimulation::Core
 
     String^ Phone::ConnectedBaseStationName::get()
     {
-        return ConnectedBaseStation->Name;
+        if (ConnectedBaseStation != nullptr)
+            return ConnectedBaseStation->Name;
+        return nullptr;
     }
 
     Phone::Phone(String^ number, Coordinates location) : Phone(number, location, 100) {}
@@ -314,7 +316,7 @@ namespace TelecommsSimulation::Core
 
     void Phone::OnPropertyChangedInvoke(Object^ propertyName)
     {
-        Phone::OnPropertyChanged(safe_cast<String^>(propertyName));
+        PropertyChanged(this, gcnew PropertyChangedEventArgs(safe_cast<String^>(propertyName)));
     }
 
     generic<typename T>
