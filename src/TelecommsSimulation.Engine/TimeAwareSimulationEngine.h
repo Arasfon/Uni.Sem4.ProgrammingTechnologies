@@ -10,7 +10,7 @@ namespace TelecommsSimulation::Engine
     {
         double _speed = 1;
         bool _isRunning;
-        Utilities::ConcurrentHashSet<T>^ _simulatedEntities = gcnew Utilities::ConcurrentHashSet<T>();
+        initonly Utilities::ConcurrentHashSet<T>^ _simulatedEntities = gcnew Utilities::ConcurrentHashSet<T>();
         unsigned long long _currentTick;
 
     protected:
