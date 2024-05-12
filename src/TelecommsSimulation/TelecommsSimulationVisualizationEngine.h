@@ -5,7 +5,7 @@
 
 namespace TelecommsSimulation
 {
-    public ref class TelecommsSimulationVisualizationEngine : IVisualizationEngine
+    public ref class TelecommsSimulationVisualizationEngine : public IVisualizationEngine
     {
         IVisualizationRegistry<Core::BaseStation^>^ _baseStationVisualizationRegistry;
         IVisualizationRegistry<Core::Phone^>^ _phoneVisualizationRegistry;
