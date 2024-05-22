@@ -23,6 +23,7 @@ namespace TelecommsSimulation
     void PhoneBlacklistForm::AddToBlacklistButton_Click(Object^ sender, EventArgs^ e)
     {
         _phoneWithBlacklist->Blacklist->TryAdd(AddToBlacklistNumberTextBox->Text);
+        AddToBlacklistNumberTextBox->Clear();
     }
 
     void PhoneBlacklistForm::RemoveSelectedFromBlacklistButton_Click(Object^ sender, EventArgs^ e)
@@ -58,6 +59,11 @@ void TelecommsSimulation::PhoneBlacklistForm::OnBlacklistChanged(Object^ sender,
                     {
                         BlacklistListBox->Items->Remove(item);
                     }
+                    break;
+                }
+            case NotifyCollectionChangedAction::Reset:
+                {
+                    BlacklistListBox->Items->Clear();
                     break;
                 }
             default:

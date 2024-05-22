@@ -604,7 +604,7 @@ namespace TelecommsSimulation
         System::Void MakeCallButton_Click(System::Object^ sender, System::EventArgs^ e);
 
     private:
-        System::Void _MakeCallButtonClickContinuation(Threading::Tasks::Task<Core::CallResult>^ task);
+        System::Void MakeCallButtonClickContinuation(Threading::Tasks::Task<Core::CallResult>^ task);
 
     private:
         System::Void EndCallButton_Click(System::Object^ sender, System::EventArgs^ e);

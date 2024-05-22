@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CallAnswer.h"
+#include "CallAnsweredEventArgs.h"
 #include "CallEventArgs.h"
 #include "CallResult.h"
 #include "CallState.h"
@@ -37,28 +38,28 @@ namespace TelecommsSimulation::Core
         property PhoneState State
         {
             PhoneState get();
-        private:
+        protected:
             void set(PhoneState value);
         }
 
         property CallState CallState
         {
             Core::CallState get();
-        private:
+        protected:
             void set(Core::CallState value);
         }
 
         property System::String^ InCallWith
         {
             System::String^ get();
-        private:
+        protected:
             void set(System::String^ value);
         }
 
         property double BatteryLevel
         {
             double get();
-        private:
+        protected:
             void set(double value);
         }
 
@@ -78,6 +79,7 @@ namespace TelecommsSimulation::Core
         event System::EventHandler^ Connected;
         event System::EventHandler^ Disconnected;
         event Utilities::AsyncEventHandler<CallEventArgs^>^ CallReceived;
+        event System::EventHandler<CallAnsweredEventArgs^>^ CallAnswered;
         event System::EventHandler<CallEventArgs^>^ CallEnded;
 
         Phone(System::String^ number, Coordinates location);

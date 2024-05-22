@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="BaseStation.h" />
     <ClInclude Include="CallAnswer.h" />
+    <ClInclude Include="CallAnsweredEventArgs.h" />
     <ClInclude Include="CallEventArgs.h" />
     <ClInclude Include="CallPhoneData.h" />
     <ClInclude Include="CallResult.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="BaseStation.cpp" />
     <ClCompile Include="CallAnswer.cpp" />
+    <ClCompile Include="CallAnsweredEventArgs.cpp" />
     <ClCompile Include="CallEventArgs.cpp" />
     <ClCompile Include="CallPhoneData.cpp" />
     <ClCompile Include="CallResult.cpp" />

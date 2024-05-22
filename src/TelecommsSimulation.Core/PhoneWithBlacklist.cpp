@@ -2,6 +2,7 @@
 
 #include "PhoneWithBlacklist.h"
 
+#include "BaseStation.h"
 #include "InvalidCallStateException.h"
 #include "InvalidPhoneStateException.h"
 
@@ -51,6 +52,12 @@ namespace TelecommsSimulation::Core
         if (CallState != Core::CallState::Idle)
             throw gcnew InvalidCallStateException();
 
-        return Blacklist->Contains(from) ? Task::FromResult(CallAnswer::Declined) : Phone::ReceiveCall(from);
+        if (Blacklist->Contains(from))
+        {
+            CallAnswered(this, gcnew CallAnsweredEventArgs(CallAnswer::Declined, Number, from));
+            return Task::FromResult(CallAnswer::Declined);
+        }
+
+        return Phone::ReceiveCall(from);
     }
 }

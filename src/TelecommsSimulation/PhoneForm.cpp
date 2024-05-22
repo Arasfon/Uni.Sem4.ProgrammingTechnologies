@@ -90,13 +90,13 @@ namespace TelecommsSimulation
     void PhoneForm::MakeCallButton_Click(Object^ sender, EventArgs^ e)
     {
         _phone->MakeCall(CalleeNumberTextBox->Text)->ContinueWith(
-            gcnew Action<Task<CallResult>^>(this, &PhoneForm::_MakeCallButtonClickContinuation),
+            gcnew Action<Task<CallResult>^>(this, &PhoneForm::MakeCallButtonClickContinuation),
             TaskContinuationOptions::RunContinuationsAsynchronously);
     }
 
     // Workaround: C++/CLI does not support lambda-functions
     // ReSharper disable once CppMemberFunctionMayBeStatic
-    void PhoneForm::_MakeCallButtonClickContinuation(Task<CallResult>^ task)
+    void PhoneForm::MakeCallButtonClickContinuation(Task<CallResult>^ task)
     {
         switch (task->Result)
         {

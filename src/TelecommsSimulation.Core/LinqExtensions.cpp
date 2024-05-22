@@ -1,3 +1,5 @@
+// Licensed to the .NET Foundation under one or more agreements.
+
 #include "pch.h"
 
 #include "LinqExtensions.h"
@@ -14,7 +16,8 @@ namespace TelecommsSimulation::Core
     }
 
     generic<typename TSource, typename TKey>
-    TSource LinqExtensions::MinBy(IEnumerable<TSource>^ source, Func<TSource, TKey>^ keySelector, IComparer<TKey>^ comparer)
+    TSource LinqExtensions::MinBy(IEnumerable<TSource>^ source, Func<TSource, TKey>^ keySelector,
+                                  IComparer<TKey>^ comparer)
     {
         if (source == nullptr)
             throw gcnew ArgumentNullException();
@@ -55,7 +58,8 @@ namespace TelecommsSimulation::Core
 
                         value = e->Current;
                         key = keySelector(value);
-                    } while (key == nullptr);
+                    }
+                    while (key == nullptr);
                 }
 
                 while (e->MoveNext())

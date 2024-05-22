@@ -48,7 +48,8 @@ namespace TelecommsSimulation::Core
         constexpr double p = Math::PI / 180;
 
         const double a = 0.5 - Math::Cos((to.Latitude - from.Latitude) * p) / 2 +
-            Math::Cos(from.Latitude * p) * Math::Cos(to.Latitude * p) * (1 - Math::Cos((to.Longitude - from.Longitude) * p)) / 2;
+            Math::Cos(from.Latitude * p) * Math::Cos(to.Latitude * p) * (1 - Math::Cos(
+                (to.Longitude - from.Longitude) * p)) / 2;
         return 2 * earthMeanRadius * Math::Asin(Math::Sqrt(a));
     }
 }

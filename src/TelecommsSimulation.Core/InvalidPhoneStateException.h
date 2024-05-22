@@ -2,8 +2,5 @@
 
 namespace TelecommsSimulation::Core
 {
-    public ref class InvalidPhoneStateException : public System::InvalidOperationException
-    {
-
-    };
+    public ref class InvalidPhoneStateException : public System::InvalidOperationException {};
 }

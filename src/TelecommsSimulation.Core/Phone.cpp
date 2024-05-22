@@ -157,7 +157,6 @@ namespace TelecommsSimulation::Core
         if (CallState != Core::CallState::Idle)
             EndCall();
 
-        ConnectedBaseStation->UnregisterPhone(this);
         ConnectedBaseStation = nullptr;
         OnPropertyChanged("ConnectedBaseStationName");
 
@@ -260,6 +259,8 @@ namespace TelecommsSimulation::Core
 
         CallState = Core::CallState::Idle;
         InCallWith = nullptr;
+
+        CallAnswered(this, gcnew CallAnsweredEventArgs(answer, Number, InCallWith));
     }
 
     void Phone::EndCall()

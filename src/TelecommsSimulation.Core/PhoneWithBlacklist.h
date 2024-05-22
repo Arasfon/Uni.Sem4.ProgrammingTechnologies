@@ -19,8 +19,10 @@ namespace TelecommsSimulation::Core
         PhoneWithBlacklist(System::String^ number, Coordinates location);
         PhoneWithBlacklist(System::String^ number, Coordinates location, double batteryLevel);
 
-        PhoneWithBlacklist(System::String^ number, Coordinates location, Utilities::ConcurrentHashSet<System::String^>^ blacklist);
-        PhoneWithBlacklist(System::String^ number, Coordinates location, Utilities::ConcurrentHashSet<System::String^>^ blacklist, double batteryLevel);
+        PhoneWithBlacklist(System::String^ number, Coordinates location,
+                           Utilities::ConcurrentHashSet<System::String^>^ blacklist);
+        PhoneWithBlacklist(System::String^ number, Coordinates location,
+                           Utilities::ConcurrentHashSet<System::String^>^ blacklist, double batteryLevel);
 
         System::Threading::Tasks::Task<CallAnswer>^ ReceiveCall(System::String^ from) override;
     };

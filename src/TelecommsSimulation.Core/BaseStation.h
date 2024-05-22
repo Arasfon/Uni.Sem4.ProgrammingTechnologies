@@ -8,20 +8,6 @@
 
 namespace TelecommsSimulation::Core
 {
-    value struct CallInitiationContinuationContext sealed
-    {
-        System::String^ To;
-        Phone^ Caller;
-        CallPhoneData^ CallData;
-
-        CallInitiationContinuationContext(System::String^ to, Phone^ caller, CallPhoneData^ callData)
-        {
-            To = to;
-            Caller = caller;
-            CallData = callData;
-        }
-    };
-
     public ref class BaseStation : public ILocatable, public System::ComponentModel::INotifyPropertyChanged
     {
         System::String^ _name;
@@ -65,7 +51,7 @@ namespace TelecommsSimulation::Core
         {
             bool get();
         protected:
-            initonly void set(bool value);
+            void set(bool value);
         }
 
         property Coordinates Location
@@ -110,9 +96,11 @@ namespace TelecommsSimulation::Core
         virtual void UnregisterPhone(Phone^ phone);
         virtual System::Threading::Tasks::Task<CallResult>^ InitiateCall(Phone^ caller, System::String^ to);
         // Workaround: C++/CLI does not support async/await
-        CallResult InitiateCallContinuation(System::Threading::Tasks::Task<CallAnswer>^ continuedTask, Object^ continuationContext);
+        CallResult InitiateCallContinuation(System::Threading::Tasks::Task<CallAnswer>^ continuedTask);
+        void CallAnswered(Object^ sender, CallAnsweredEventArgs^ context);
 
     protected:
+        void PhoneDisconnected(Object^ sender, System::EventArgs^ e);
         void CallEnded(Object^ sender, CallEventArgs^ e);
         static Phone^ FindPhone(System::String^ number);
 

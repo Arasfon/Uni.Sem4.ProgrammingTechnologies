@@ -153,6 +153,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="InvalidSimulationStateException.cpp" />
+    <ClCompile Include="ISimulatable.cpp" />
+    <ClCompile Include="ISimulationEngine.cpp" />
+    <ClCompile Include="ITimeAwareSimulatable.cpp" />
     <ClCompile Include="IWrapperSimulatable.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

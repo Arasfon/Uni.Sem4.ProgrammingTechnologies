@@ -119,6 +119,8 @@ namespace TelecommsSimulation::Core
         OnPropertyChanged("ConnectedPhones");
 
         phone->CallEnded += gcnew EventHandler<CallEventArgs^>(this, &BaseStation::CallEnded);
+        phone->Disconnected += gcnew EventHandler(this, &BaseStation::PhoneDisconnected);
+        phone->CallAnswered += gcnew EventHandler<CallAnsweredEventArgs^>(this, &BaseStation::CallAnswered);
     }
 
     void BaseStation::UnregisterPhone(Phone^ phone)
@@ -130,6 +132,13 @@ namespace TelecommsSimulation::Core
         OnPropertyChanged("ConnectedPhones");
 
         phone->CallEnded -= gcnew EventHandler<CallEventArgs^>(this, &BaseStation::CallEnded);
+        phone->Disconnected -= gcnew EventHandler(this, &BaseStation::PhoneDisconnected);
+        phone->CallAnswered -= gcnew EventHandler<CallAnsweredEventArgs^>(this, &BaseStation::CallAnswered);
+    }
+
+    void BaseStation::PhoneDisconnected(Object^ sender, EventArgs^ e)
+    {
+        UnregisterPhone(safe_cast<Phone^>(sender));
     }
 
     Task<CallResult>^ BaseStation::InitiateCall(Phone^ caller, String^ to)
@@ -150,40 +159,52 @@ namespace TelecommsSimulation::Core
 
         Task<CallAnswer>^ receiveCallTask = receiverPhone->ReceiveCall(caller->Number);
         return receiveCallTask->ContinueWith<CallResult>(
-            gcnew Func<Task<CallAnswer>^, Object^, CallResult>(this, &BaseStation::InitiateCallContinuation),
-            CallInitiationContinuationContext(to, caller, callPhoneData),
+            gcnew Func<Task<CallAnswer>^, CallResult>(this, &BaseStation::InitiateCallContinuation),
             TaskContinuationOptions::RunContinuationsAsynchronously);
     }
 
-    CallResult BaseStation::InitiateCallContinuation(Task<CallAnswer>^ continuedTask, Object^ continuationContext)
+    CallResult BaseStation::InitiateCallContinuation(Task<CallAnswer>^ continuedTask)
     {
-        CallInitiationContinuationContext context = safe_cast<CallInitiationContinuationContext>(continuationContext);
-
-        CallPhoneData^ discard;
-
         if (continuedTask->IsCanceled || continuedTask->IsFaulted)
-        {
-            CallDataLookupDictionary->TryRemove(context.Caller->Number, discard);
-            CallDataLookupDictionary->TryRemove(context.To, discard);
             return CallResult::Busy;
-        }
 
         switch (continuedTask->Result)
         {
             case CallAnswer::Agreed:
+                return CallResult::Established;
+            case CallAnswer::Declined:
+                return CallResult::Busy;
+            default:
+                throw gcnew ArgumentOutOfRangeException(nullptr, "Call answer was out of range");
+        }
+    }
+
+    void BaseStation::CallAnswered(Object^ sender, CallAnsweredEventArgs^ context)
+    {
+        CallPhoneData^ discard;
+
+        if (context->Answer == CallAnswer::Declined)
+        {
+            CallDataLookupDictionary->TryRemove(context->From, discard);
+            CallDataLookupDictionary->TryRemove(context->To, discard);
+        }
+
+        switch (context->Answer)
+        {
+            case CallAnswer::Agreed:
                 {
-                    return CallResult::Established;
+                    break;
                 }
             case CallAnswer::Declined:
                 {
-                    CallDataLookupDictionary->TryRemove(context.Caller->Number, discard);
-                    CallDataLookupDictionary->TryRemove(context.To, discard);
-                    return CallResult::Busy;
+                    CallDataLookupDictionary->TryRemove(context->From, discard);
+                    CallDataLookupDictionary->TryRemove(context->To, discard);
+                    break;
                 }
             default:
                 {
-                    CallDataLookupDictionary->TryRemove(context.Caller->Number, discard);
-                    CallDataLookupDictionary->TryRemove(context.To, discard);
+                    CallDataLookupDictionary->TryRemove(context->From, discard);
+                    CallDataLookupDictionary->TryRemove(context->To, discard);
                     throw gcnew ArgumentOutOfRangeException(nullptr, "Call answer was out of range");
                 }
         }
